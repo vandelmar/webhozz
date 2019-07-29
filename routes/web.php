@@ -19,13 +19,15 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
 Route::get('/category', 'CategoryController@index');
 
+//insert data
 Route::get('/category/create', 'CategoryController@create');
+Route::post('/category/create', 'CategoryController@store');   
 
-Route::post('/category/create', 'CategoryController@store');
+//update data
+Route::get('/category/{id}/edit', 'CategoryController@edit');
+Route::put('/category/{id}/edit', 'CategoryController@update'); 
 
+//delete data
+Route::delete('/category/{id}', 'CategoryController@destroy'); 
