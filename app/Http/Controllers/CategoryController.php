@@ -16,7 +16,7 @@ class CategoryController extends Controller
         }
         else
         {
-            $category = Category::all();
+            $category = Category::paginate(5);
         }
         return view('category.index', compact('category'));
     }

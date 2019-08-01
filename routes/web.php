@@ -31,3 +31,7 @@ Route::put('/category/{id}/edit', 'CategoryController@update');
 
 //delete data
 Route::delete('/category/{id}', 'CategoryController@destroy'); 
+
+// membuat route global
+Route::resource('product', 'ProductController');
+

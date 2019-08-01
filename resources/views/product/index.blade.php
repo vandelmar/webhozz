@@ -4,9 +4,9 @@
 <div class="container">
   <div class="row">
     <div class="col-md-12">  
-      <h1>Category</h1>
+      <h1>Product</h1>
       <div class="text-right">
-      <a href="/category/create" class="btn btn-success mb-3">New Category</a>
+      <a href="/product/create" class="btn btn-success mb-3">New Product</a>
     </div>
   </div>
 
@@ -20,25 +20,29 @@
     <thead>
       <tr>
         <th scope="col">ID</th>
+        <th scope="col">Category ID</th>
         <th scope="col">Name</th>
+        <th scope="col">Price</th>
         <th scope="col">Created At</th>
         <th scope="col">Update At</th>
         <th scope="col" colspan="2">Action</th>
       </tr>
     </thead>
     <tbody>
-        @forelse($category as $item)
+        @forelse($product as $item)
       <tr>
         <th scope="row">{{$item->id}}</th>
+        <td>{{optional($item->category)->name}}</td>
         <td>{{$item->name}}</td>
-        <td>{{$item->created_at}}</td>
+        <td>Rp. {{number_format($item->price, 0, ',', '.')}}</td>
+        <td>{{$item->created_at->diffForHumans()}}</td>
         <td>{{$item->updated_at}}</td>
         <td>
-          <a  class="btn btn-primary" href="/category/{{$item->id}}/edit">Edit</a>
+          <a  class="btn btn-primary" href="/product/{{$item->id}}/edit">Edit</a>
         </td>
         <td>
 
-          <form method="POST" action="/category/{{$item->id}}">
+          <form method="POST" action="/product/{{$item->id}}">
             @csrf
             @method("DELETE")
             <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
@@ -52,7 +56,6 @@
       @endforelse
     </tbody>
   </table>
-  {{$category->render()}}
   </div>
 </div>    
 @endsection
