@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Category;
 use App\product;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProductController extends Controller
 {
@@ -18,7 +19,7 @@ class ProductController extends Controller
         }
         else
         {
-            $product = product::all();
+            $product = product::paginate(5);
         }
         return view('product.index', compact('product'));
     }
@@ -72,4 +73,34 @@ class ProductController extends Controller
         return redirect('/product');
     }
     
+    public function export()
+    {
+        Excel::create('product', function($excel) {
+            // query untuk ambil data dari database
+            
+            $excel->sheet('sheet', function($sheet) {
+                $product=Product::all();
+                $sheet->loadView('excel.product', compact('product'));
+            });
+        })->download('xls');
+        
+        }
+
+        public function import()
+        {
+            $file = request()->file('file');
+            Excel::load($file, function ($reader) {
+                $result = $reader->get();
+
+                foreach ($result as $result) {
+                    Product::create([
+                    'category_id' => $result->kategori,
+                    'name' => $result->name,
+                    'price' => $result->price,
+                ]); 
+                }
+            });
+
+            return redirect()->route('product.index');
+            }            
 }   

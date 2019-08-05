@@ -35,3 +35,9 @@ Route::delete('/category/{id}', 'CategoryController@destroy');
 // membuat route global
 Route::resource('product', 'ProductController');
 
+// route untuk export file
+Route::get('product-export', 'ProductController@export');
+
+// route untuk import file
+Route::post('product-import', 'ProductController@import');
+Route::resource('posts', 'PostsController');

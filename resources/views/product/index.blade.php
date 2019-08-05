@@ -7,10 +7,19 @@
       <h1>Product</h1>
       <div class="text-right">
       <a href="/product/create" class="btn btn-success mb-3">New Product</a>
-    </div>
-  </div>
+        <a href="/product-export" class="btn btn-warning mb-3">Export</a>
+      </div>
+      </div>
 
-    <form class="form-inline mb-3">
+      <div class="col md-6">
+        <form action="/product-import" method="POST" enctype="multipart/form-data">
+          @csrf
+          <input type="file" name="file">
+          <button type="submit" class="btn btn-primary">Import</button>
+        </form>
+      </div>
+
+      <form class="form-inline mb-3">
       <div class="form-group">
         <input type="text" name="search" class="form-control" placeholder="Search here...">
       </div>
@@ -20,7 +29,7 @@
     <thead>
       <tr>
         <th scope="col">ID</th>
-        <th scope="col">Category ID</th>
+        <th scope="col">Category</th>
         <th scope="col">Name</th>
         <th scope="col">Price</th>
         <th scope="col">Created At</th>
@@ -56,6 +65,7 @@
       @endforelse
     </tbody>
   </table>
+  {{$product->render()}}
   </div>
 </div>    
 @endsection

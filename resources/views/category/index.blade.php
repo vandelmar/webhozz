@@ -54,5 +54,5 @@
   </table>
   {{$category->render()}}
   </div>
-</div>    
+</div>      
 @endsection
