@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Category;
 use App\product;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ProductController extends Controller
@@ -23,20 +24,21 @@ class ProductController extends Controller
         }
         return view('product.index', compact('product'));
     }
-        
+
     public function create()
     {
         $category= Category::all();
            return view('product.create', compact('category'));
 
     }
-    
+
     public function store()
     {
         product::create([
             'category_id' => request('category_id'),
             'name'=> request('name'),
             'price'=> request('price'),
+            'filename'=> request('filename'),
         ]);
 
         // redirect
@@ -49,7 +51,7 @@ class ProductController extends Controller
         $category = Category::all();
            return view('product.edit', compact('product', 'category'));
     }
-    
+
     public function update($id)
     {
         // query ke database buat ambil product dari id=$id
@@ -61,7 +63,7 @@ class ProductController extends Controller
             'name'=> request('name'),
             'price'=> request('price'),
             ]);
-        
+
         // redirect
         return redirect( '/product');
     }
@@ -72,18 +74,18 @@ class ProductController extends Controller
         $product->delete();
         return redirect('/product');
     }
-    
+
     public function export()
     {
         Excel::create('product', function($excel) {
             // query untuk ambil data dari database
-            
+
             $excel->sheet('sheet', function($sheet) {
                 $product=Product::all();
                 $sheet->loadView('excel.product', compact('product'));
             });
         })->download('xls');
-        
+
         }
 
         public function import()
@@ -97,10 +99,10 @@ class ProductController extends Controller
                     'category_id' => $result->kategori,
                     'name' => $result->name,
                     'price' => $result->price,
-                ]); 
+                ]);
                 }
             });
 
             return redirect()->route('product.index');
-            }            
-}   
+            }
+}
